@@ -43,7 +43,8 @@ def main() -> None:
                 "y = b * e^(a x)",
                 "y = b * a^x", 
                 "y = 1 / (a x + b)",
-                "y = b * n^(a x)"]
+                "y = b * n^(a x)", 
+                "y = b * x^(a)"]
 
         for i, v in enumerate(types):
             print(f'{i + 1}. {v}')
@@ -95,6 +96,13 @@ def main() -> None:
 
             coefficients = linearregression(xdata, ydata)
             coefficients[1] = n ** coefficients[1]
+
+        elif userresponse == 6:
+            xdata = [log(x) for x in xdata]
+            ydata = [log(y) for y in ydata]
+
+            coefficients = linearregression(xdata, ydata)
+            coefficients[1] = exp(coefficients[1])
 
         # Printa a equação com os coeficientes
         output = types[userresponse - 1].replace("a", str(coefficients[0]))
