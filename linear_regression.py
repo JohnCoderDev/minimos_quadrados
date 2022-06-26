@@ -15,7 +15,7 @@ def linearregression(xdata: list, ydata: list) -> list:
     sejam diferentes.
     """
     if len(xdata) != len(ydata):
-        raise "Número de entradas não são iguais"
+        raise Exception("Número de entradas não são iguais")
 
     # Pega o valor das somas da regressão linear
     # linear
@@ -37,14 +37,6 @@ def linearregression(xdata: list, ydata: list) -> list:
 
 # Main function
 def main() -> None:
-    # Coleta os dados x
-    xdata = input("Digite os dados do eixo x separados por vírgula:\n").split(",")
-    xdata = [float(x) for x in xdata]
-    
-    # Coleta os dados y
-    ydata = input("Digite os dados do eixo y separados por vírgula:\n").split(",")
-    ydata = [float(y) for y in ydata]
-
     while True:
         print("\nSelecione o tipo de regressão linear\n")
         types = ["y = a x + b", 
@@ -66,42 +58,55 @@ def main() -> None:
     if userresponse == 0:
         exit()
 
-    elif userresponse == 1:
-        coefficients = linearregression(xdata, ydata)
-
-    elif userresponse == 2:
-        ydata = [log(y) for y in ydata]
+    try:
+# Coleta os dados x
+        xdata = input("Digite os dados do eixo x separados por vírgula:\n").split(",")
+        xdata = [float(x) for x in xdata]
         
-        coefficients = linearregression(xdata, ydata)
-        coefficients[1] = exp(coefficients[1])
+        # Coleta os dados y
+        ydata = input("Digite os dados do eixo y separados por vírgula:\n").split(",")
+        ydata = [float(y) for y in ydata]
 
-    elif userresponse == 3:
-        ydata = [log(y) for y in ydata]
 
-        coefficients = linearregression(xdata, ydata)
-        coefficients[0] = exp(coefficients[0])
-        coefficients[1] = exp(coefficients[1])
+        if userresponse == 1:
+            coefficients = linearregression(xdata, ydata)
 
-    elif userresponse == 4:
-        ydata = [1 / y for y in ydata]
-        coefficients = linearregression(xdata, ydata)
+        elif userresponse == 2:
+            ydata = [log(y) for y in ydata]
+            
+            coefficients = linearregression(xdata, ydata)
+            coefficients[1] = exp(coefficients[1])
 
-    elif userresponse == 5:
-        n = float(input("Digite o valor de n: "))
+        elif userresponse == 3:
+            ydata = [log(y) for y in ydata]
 
-        ydata = [log(y, n) for y in ydata]
+            coefficients = linearregression(xdata, ydata)
+            coefficients[0] = exp(coefficients[0])
+            coefficients[1] = exp(coefficients[1])
 
-        coefficients = linearregression(xdata, ydata)
-        coefficients[1] = n ** coefficients[1]
+        elif userresponse == 4:
+            ydata = [1 / y for y in ydata]
+            coefficients = linearregression(xdata, ydata)
 
-    # Printa a equação com os coeficientes
-    output = types[userresponse - 1].replace("a", str(coefficients[0]))
-    output = output.replace("b", str(coefficients[1]))
+        elif userresponse == 5:
+            n = float(input("Digite o valor de n: "))
+
+            ydata = [log(y, n) for y in ydata]
+
+            coefficients = linearregression(xdata, ydata)
+            coefficients[1] = n ** coefficients[1]
+
+        # Printa a equação com os coeficientes
+        output = types[userresponse - 1].replace("a", str(coefficients[0]))
+        output = output.replace("b", str(coefficients[1]))
+        
+        if userresponse == 5:
+            output = output.replace("n", str(n))
+        
+        print(output)
     
-    if userresponse == 5:
-        output = output.replace("n", str(n))
-    
-    print(output)
+    except Exception as e:
+            print(f'\033[31mERRO: {e.__str__()} \033[m')
 
 if __name__ == "__main__":
     main()
