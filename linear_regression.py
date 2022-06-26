@@ -59,7 +59,7 @@ def main() -> None:
         exit()
 
     try:
-# Coleta os dados x
+        # Coleta os dados x
         xdata = input("Digite os dados do eixo x separados por vírgula:\n").split(",")
         xdata = [float(x) for x in xdata]
         
